@@ -4,9 +4,33 @@
 
 {% block content %}
     <div class="container text-center">
-        <h1>Welcome to UrbanNexFut!</h1>
-        <p>Your AI-powered solution for monitoring and improving urban air quality.</p>
-        <a href="/map" class="btn btn-primary">View Map</a>
-        <a href="/add-zone" class="btn btn-success">Add Green Zone</a>
+        <h1 class="mb-4">Welcome to UrbanNexFut!</h1>
+        <p class="lead">Your AI-powered solution for monitoring and improving urban air quality.</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <a href="/map" class="btn btn-primary btn-lg">Explore Air Quality Map</a>
+            </div>
+            <div class="col-md-6">
+                <a href="/add-zone" class="btn btn-success btn-lg">Contribute by Adding a Green Zone</a>
+            </div>
+        </div>
+        
+        <p class="mt-4">Learn more about how UrbanNexFut helps create healthier cities.</p>
+        
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <h5>Our Mission</h5>
+                <p>UrbanNexFut aims to improve urban air quality through AI-driven insights and community engagement.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>How It Works</h5>
+                <p>Our platform uses real-time data to identify areas needing improvement and suggests green zones for better air quality.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Get Involved</h5>
+                <p>Join our community by adding green zones or exploring our map to contribute to a healthier environment.</p>
+            </div>
+        </div>
     </div>
 {% endblock %}

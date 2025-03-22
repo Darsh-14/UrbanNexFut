@@ -1,0 +1,20 @@
+#map {
+    height: 85vh !important;
+    width: 100% !important;
+    display: block !important;
+    margin-top: 20px;
+    border-radius: 10px;
+    background: #f4f4f4; /* Light grey background to check visibility */
+  }
+  
+  .container {
+    max-width: 1200px;
+  }
+  
+  /* Optional: Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    #map {
+      height: 60vh !important; /* Adjust height for smaller screens */
+    }
+  }
+  

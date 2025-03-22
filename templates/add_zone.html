@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Add New Green Zone - UrbanNexFut{% endblock %}
+{% block title %}Add Green Zone{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
     <h1 class="text-center">Add a New Green Zone</h1>
-    <form action="/submit-zone" method="post" class="mt-4">
+    <form method="POST" action="/add-zone" class="mt-4">
         <div class="mb-3">
-            <label class="form-label">Green Zone Name</label>
-            <input type="text" class="form-control" name="name" required>
+            <label for="name" class="form-label">Zone Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Latitude</label>
-            <input type="text" class="form-control" name="lat" required>
+            <label for="lat" class="form-label">Latitude</label>
+            <input type="text" class="form-control" id="lat" name="lat" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Longitude</label>
-            <input type="text" class="form-control" name="lon" required>
+            <label for="lon" class="form-label">Longitude</label>
+            <input type="text" class="form-control" id="lon" name="lon" required>
         </div>
-        <button type="submit" class="btn btn-success">Add Green Zone</button>
+        <button type="submit" class="btn btn-primary">Add Zone</button>
     </form>
+</div>
 {% endblock %}
