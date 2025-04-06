@@ -1,62 +1,541 @@
-<!DOCTYPE html>
+<!--  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debugging OpenStreetMap</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        /* Ensure the map container has height */
+        #map { height: 2000px; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <h2>UrbanNexFut - Air Quality Index and Pollution Level</h2>
+    <div id="map"></div>
+    <a href="RA.html">Read More</a>
+
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([28.5, 77.2], 10);
+
+        // Add OpenStreetMap Tile Layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            errorTileUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_placeholder.png'  // Show error image if tile fails
+        }).addTo(map);
+
+        // Example Marker
+        var marker = L.marker([28.6139, 77.2090]).addTo(map)
+            .bindPopup("Example Location: New Delhi<br> AQI Level: Moderate");
+
+        // Debugging: Log Map Load Status
+        map.on('load', function() {
+            console.log("Map loaded successfully!");
+        });
+
+    </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanNexFut - Air Quality Index</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        #map { height: 600px; width: 100%; }
+        #search-container { margin: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>UrbanNexFut - Air Quality Index and Pollution Level</h2>
+    <div id="search-container">
+        <input type="text" id="search-box" placeholder="Search for a city...">
+        <button onclick="searchLocation()">Search</button>
+    </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <a href="RA.html">Read More</a>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCruJewILBtkU38rWd2oU-r7GLKsZiTjkk&libraries=places"> -->
+        <!-- // var map = L.map('map').setView([20.5937, 78.9629], 5);
+
+        // // Add OpenStreetMap Tile Layer
+        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     attribution: '&copy; OpenStreetMap contributors',
+        //     errorTileUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_placeholder.png'
+        // }).addTo(map);
+
+        // var cities = [
+        // { city: "Delhi", name: "Anand Vihar", lat: 28.6505, lon: 77.3027, aqi: 180 },
+        //     { city: "Delhi", name: "Punjabi Bagh", lat: 28.6723, lon: 77.1264, aqi: 190 },
+        //     { city: "Mumbai", name: "Bandra", lat: 19.0595, lon: 72.8295, aqi: 120 },
+        //     { city: "Mumbai", name: "Colaba", lat: 18.9067, lon: 72.8147, aqi: 130 },
+        //     { city: "Bengaluru", name: "Silk Board", lat: 12.9177, lon: 77.6234, aqi: 95 },
+        //     { city: "Bengaluru", name: "Whitefield", lat: 12.9698, lon: 77.7500, aqi: 105 },
+        //     { city: "Chennai", name: "T. Nagar", lat: 13.0418, lon: 80.2333, aqi: 110 },
+        //     { city: "Chennai", name: "Guindy", lat: 13.0084, lon: 80.2209, aqi: 115 },
+        //     { city: "Kolkata", name: "Dum Dum", lat: 22.6304, lon: 88.4229, aqi: 160 },
+        //     { city: "Kolkata", name: "Howrah", lat: 22.5958, lon: 88.2636, aqi: 165 },
+        //     { city: "Hyderabad", name: "Banjara Hills", lat: 17.4156, lon: 78.4489, aqi: 130 },
+        //     { city: "Hyderabad", name: "Hitech City", lat: 17.4506, lon: 78.3802, aqi: 135 },
+        //     { city: "Ahmedabad", name: "Naroda", lat: 23.0805, lon: 72.6341, aqi: 150 },
+        //     { city: "Ahmedabad", name: "Maninagar", lat: 22.9986, lon: 72.6030, aqi: 155 },
+        //     { city: "Pune", name: "Hinjewadi", lat: 18.5977, lon: 73.7186, aqi: 100 },
+        //     { city: "Pune", name: "Swargate", lat: 18.5018, lon: 73.8636, aqi: 105 },
+        //     { city: "Jaipur", name: "Mansarovar", lat: 26.8582, lon: 75.7597, aqi: 170 },
+        //     { city: "Jaipur", name: "C-Scheme", lat: 26.9124, lon: 75.7873, aqi: 160 },
+        //     { city: "Lucknow", name: "Aliganj", lat: 26.8823, lon: 80.9496, aqi: 175 },
+        //     { city: "Lucknow", name: "Hazratganj", lat: 26.8526, lon: 80.9475, aqi: 165 }
+        // ];
+
+
+        // var markers = [];
+
+        // function addMarkers() {
+        //     markers.forEach(marker => map.removeLayer(marker));
+        //     markers = [];
+            
+        //     cities.forEach(city => {
+        //         var color = city.aqi > 150 ? 'red' : 'green';
+        //         var marker = L.circleMarker([city.lat, city.lon], {
+        //             radius: 10,
+        //             color: color,
+        //             fillColor: color,
+        //             fillOpacity: 0.7
+        //         }).addTo(map);
+                
+        //         marker.bindPopup(`${city.name}<br>AQI Level: ${city.aqi}`);
+        //         markers.push(marker);
+        //     });
+        // }
+
+        // addMarkers();
+
+        // function searchLocation() {
+        //     var query = document.getElementById("search-box").value.toLowerCase();
+        //     var found = cities.find(city => city.name.toLowerCase().includes(query));
+            
+        //     if (found) {
+        //         map.setView([found.lat, found.lon], 10);
+        //         markers.forEach(marker => {
+        //             if (marker.getPopup().getContent().includes(found.name)) {
+        //                 marker.openPopup();
+        //             }
+        //         });
+        //     } else {
+        //         alert("City not found!");
+        //     }
+        // }
+  
+
+  // Load the map after page load
+  window.onload = initMap;
+    </script> -->
+<!-- </body> -->
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UrbanNexFut - Map View</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="map.css">
+  <title>UrbanNexFut Live AQI & Green Zones</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { height: 100vh; width: 100%; }
+    .controls {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">UrbanNexFut2</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/map">Map</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Map Section -->
-  <div class="container my-4">
-    <!-- Search Bar -->
-    <div class="row justify-content-center mb-3">
-      <div class="col-md-6">
-        <div class="input-group">
-          <input type="text" id="locationSearch" class="form-control" placeholder="Enter a city or location">
-          <button id="searchBtn" class="btn btn-primary">Search</button>
-        </div>
-      </div>
-    </div>
-    <!-- Map Container -->
-    <div id="map" class="rounded shadow"></div>
-  </div>
+   Search Box -->
+  <!-- <input id="pac-input" class="controls" type="text" placeholder="Search a place">
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2025 UrbanNexFut. All Rights Reserved.</p>
-  </footer>
+   Map Container 
+  <div id="map"></div>
 
-  <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <!-- Custom JS -->
-  <script src="map.js"></script>
+  <script>
+    let map;
+
+    function initMap() {
+      const defaultCoords = { lat: 28.6139, lng: 77.2090 }; // Delhi
+
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 13,
+        center: defaultCoords,
+        mapTypeId: 'roadmap'
+      });
+
+      // Search box
+      const searchBox = new google.maps.places.SearchBox(document.getElementById("pac-input"));
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById("pac-input"));
+
+      // When a place is selected
+      searchBox.addListener("places_changed", () => {
+        const places = searchBox.getPlaces();
+        if (places.length === 0) return;
+
+        const place = places[0];
+        const location = place.geometry.location;
+
+        map.setCenter(location);
+        map.setZoom(15);
+        fetchAndDisplayAQI(location.lat(), location.lng());
+      });
+
+      // Initial AQI circle for default location
+      fetchAndDisplayAQI(defaultCoords.lat, defaultCoords.lng);
+
+      // Live refresh every 60s
+      setInterval(() => {
+        const center = map.getCenter();
+        fetchAndDisplayAQI(center.lat(), center.lng());
+      }, 60000);
+    }
+
+    function fetchAndDisplayAQI(lat, lng) {
+      fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lng}&appid=967645bb0336d4d7a182e38827101a0f`)
+        .then(response => {
+          if (!response.ok) throw new Error("Failed to fetch AQI data");
+          return response.json();
+        })
+        .then(data => {
+          const aqiRaw = data?.list?.[0]?.components?.pm2_5 || 0;
+          const aqi = Math.min(Math.round(aqiRaw * 4), 500); // rough approximation
+
+          // Color based on AQI
+          let color = "rgba(0, 255, 0, 0.4)";
+          if (aqi > 150) color = "rgba(255, 0, 0, 0.4)";
+          else if (aqi > 100) color = "rgba(255, 165, 0, 0.4)";
+          else if (aqi > 50) color = "rgba(255, 255, 0, 0.4)";
+
+          const circle = new google.maps.Circle({
+            strokeColor: color,
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: color,
+            fillOpacity: 0.35,
+            map: map,
+            center: { lat, lng },
+            radius: 1000
+          });
+
+          const infoWindow = new google.maps.InfoWindow({
+            content: `<b>Air Quality Index (AQI):</b> ${aqi}`,
+            position: { lat, lng }
+          });
+
+          infoWindow.open(map);
+
+          circle.addListener("click", () => {
+            infoWindow.open(map);
+          });
+        })
+        .catch(error => console.error("❌ AQI Fetch Error:", error));
+    }
+  </script>
+
+  <! Google Maps & Places API 
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCruJewILBtkU38rWd2oU-r7GLKsZiTjkk&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
+
+
+ --> 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UrbanNexFut - Live AQI & Green Zones</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { height: 100vh; width: 100%; }
+    .controls {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+    }
+    #legend {
+      background: white;
+      padding: 10px;
+      margin: 10px;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .legend-color {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 6px;
+    }
+    .error-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff4444;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+    .loader {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      z-index: 1000;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Search Box -->
+<input id="pac-input" class="controls" type="text" placeholder="Search a place">
+
+<!-- Predict Green Zones UI -->
+<div class="controls" style="margin-top: 5px;">
+  <input id="cityInput" type="text" placeholder="Enter city (e.g. Delhi)">
+  <button onclick="predictGreenery()">Suggest Green Zones 🌳</button>
+</div>
+
+<!-- Map Container -->
+<div id="map"></div>
+
+<!-- Legend -->
+<div id="legend">
+  <div><span class="legend-color" style="background: green;"></span> AQI ≤ 50 (Good)</div>
+  <div><span class="legend-color" style="background: yellow;"></span> AQI ≤ 100 (Moderate)</div>
+  <div><span class="legend-color" style="background: orange;"></span> AQI ≤ 150 (Unhealthy)</div>
+  <div><span class="legend-color" style="background: red;"></span> AQI > 150 (Hazardous)</div>
+</div>
+
+<!-- Loader -->
+<div id="loader" class="loader">Fetching data...</div>
+
+<script>
+let map;
+let aqiMarkers = [];
+let greenZoneMarkers = [];
+
+function initMap() {
+  const defaultCoords = { lat: 28.6139, lng: 77.2090 };
+
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: defaultCoords,
+    mapTypeId: 'roadmap',
+    gestureHandling: 'cooperative'
+  });
+
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
+
+  const searchBox = new google.maps.places.SearchBox(document.getElementById("pac-input"));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById("pac-input"));
+
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+    if (places.length === 0) return;
+    const place = places[0];
+    const location = place.geometry.location;
+    map.setCenter(location);
+    map.setZoom(15);
+    fetchAndDisplayAQI(location.lat(), location.lng());
+  });
+
+  // Try geolocation
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const coords = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      };
+      map.setCenter(coords);
+      fetchAndDisplayAQI(coords.lat, coords.lng);
+    }, () => {
+      fetchAndDisplayAQI(defaultCoords.lat, defaultCoords.lng); // fallback
+    });
+  } else {
+    fetchAndDisplayAQI(defaultCoords.lat, defaultCoords.lng); // fallback
+  }
+}
+
+function clearMarkers() {
+  aqiMarkers.forEach(marker => marker.setMap(null));
+  greenZoneMarkers.forEach(marker => marker.setMap(null));
+  aqiMarkers = [];
+  greenZoneMarkers = [];
+}
+
+function toggleLoader(show = true) {
+  const loader = document.getElementById("loader");
+  loader.style.display = show ? "block" : "none";
+}
+
+async function fetchAndDisplayAQI(lat, lng) {
+  try {
+    clearMarkers();
+    toggleLoader(true);
+
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lng}&appid=967645bb0336d4d7a182e38827101a0f`);
+    if (!res.ok) throw new Error('Failed to fetch AQI data');
+
+    const data = await res.json();
+    const pm25 = data?.list?.[0]?.components?.pm2_5;
+    if (!pm25) throw new Error('No PM2.5 data available');
+
+    const aqi = calculateAQI(pm25);
+    const color = getAQIColor(aqi);
+
+    const circle = new google.maps.Circle({
+      strokeColor: color,
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: color,
+      fillOpacity: 0.35,
+      map,
+      center: { lat, lng },
+      radius: aqi * 10
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<b>Air Quality Index (AQI):</b> ${aqi}`,
+      position: { lat, lng }
+    });
+    infoWindow.open(map);
+    circle.addListener("click", () => infoWindow.open(map));
+    aqiMarkers.push(circle);
+
+    if (aqi > 150) {
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map,
+        icon: {
+          url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Ei-tree.svg/32px-Ei-tree.svg.png",
+          scaledSize: new google.maps.Size(32, 32)
+        },
+        title: "Critical Pollution Zone"
+      });
+      greenZoneMarkers.push(marker);
+    }
+
+  } catch (error) {
+    showError(`AQI Fetch Error: ${error.message}`);
+  } finally {
+    toggleLoader(false);
+  }
+}
+
+function getAQIColor(aqi) {
+  if (aqi <= 50) return '#00E400';
+  if (aqi <= 100) return '#FFFF00';
+  if (aqi <= 150) return '#FF7E00';
+  return '#FF0000';
+}
+
+function calculateAQI(pm25) {
+  const breakpoints = [
+    [0, 12, 0, 50],
+    [12.1, 35.4, 51, 100],
+    [35.5, 55.4, 101, 150],
+    [55.5, 150.4, 151, 200],
+    [150.5, 250.4, 201, 300],
+    [250.5, 350.4, 301, 400],
+    [350.5, 500.4, 401, 500]
+  ];
+  for (const [lo, hi, aqiLo, aqiHi] of breakpoints) {
+    if (pm25 >= lo && pm25 <= hi) {
+      return Math.round(((aqiHi - aqiLo) / (hi - lo)) * (pm25 - lo) + aqiLo);
+    }
+  }
+  return 500;
+}
+
+async function predictGreenery() {
+  const city = document.getElementById("cityInput").value.trim();
+  if (!city) return showError("Please enter a city name");
+
+  try {
+    toggleLoader(true);
+    const response = await fetch("/predict-green-locations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ city })
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+
+    if (data.error) throw new Error(data.error);
+
+    greenZoneMarkers.forEach(marker => marker.setMap(null));
+    greenZoneMarkers = [];
+
+    data.hotspots.forEach((hotspot, index) => {
+      const marker = new google.maps.Marker({
+        position: { lat: hotspot.lat, lng: hotspot.lon },
+        map,
+        icon: {
+          url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Ei-tree.svg/32px-Ei-tree.svg.png",
+          scaledSize: new google.maps.Size(32, 32)
+        },
+        title: `Green Zone ${index + 1}`
+      });
+
+      const infoWindow = new google.maps.InfoWindow({
+        content: `<b>Location:</b> ${hotspot.lat}, ${hotspot.lon}<br>
+                  <b>AQI:</b> ${hotspot.aqi}<br>
+                  <b>Recommendation:</b> ${data.gemini_suggestions}`
+      });
+
+      marker.addListener("click", () => infoWindow.open(map, marker));
+      greenZoneMarkers.push(marker);
+    });
+
+  } catch (error) {
+    showError(`Prediction failed: ${error.message}`);
+  } finally {
+    toggleLoader(false);
+  }
+}
+
+function showError(message) {
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-toast';
+  errorDiv.innerHTML = `⚠️ ${message}`;
+  document.body.appendChild(errorDiv);
+  setTimeout(() => errorDiv.remove(), 5000);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCruJewILBtkU38rWd2oU-r7GLKsZiTjkk&libraries=places&callback=initMap" async defer></script>
+</body>
+</html>
+
+ 
+
+ 

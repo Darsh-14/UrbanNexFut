@@ -1,24 +1,64 @@
 {% extends "base.html" %}
-
-{% block title %}Add Green Zone{% endblock %}
-
+{% block title %}Add Green Zone - UrbanNexFut{% endblock %}
 {% block content %}
-<div class="container mt-4">
-    <h1 class="text-center">Add a New Green Zone</h1>
-    <form method="POST" action="/add-zone" class="mt-4">
-        <div class="mb-3">
-            <label for="name" class="form-label">Zone Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="mb-3">
-            <label for="lat" class="form-label">Latitude</label>
-            <input type="text" class="form-control" id="lat" name="lat" required>
-        </div>
-        <div class="mb-3">
-            <label for="lon" class="form-label">Longitude</label>
-            <input type="text" class="form-control" id="lon" name="lon" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Zone</button>
-    </form>
-</div>
+
+<h2 class="text-center mb-4">Add a Green Zone Manually</h2>
+
+<div id="map" style="height: 500px; width: 100%; margin-bottom: 20px;"></div>
+
+<form method="POST" action="/add-zone" id="zoneForm">
+    <input type="hidden" name="lat" id="lat">
+    <input type="hidden" name="lng" id="lng">
+
+    <div class="mb-3">
+        <label for="zone_name" class="form-label">Zone Name</label>
+        <input type="text" class="form-control" name="zone_name" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="3" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="aqi" class="form-label">AQI Value</label>
+        <input type="number" class="form-control" name="aqi" required min="0">
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit Zone 🌱</button>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+let map;
+let marker;
+
+function initMap() {
+    const defaultCoords = { lat: 28.6139, lng: 77.2090 }; // Default to Delhi
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultCoords,
+        zoom: 13,
+    });
+
+    map.addListener("click", function(event) {
+        const clickedLat = event.latLng.lat();
+        const clickedLng = event.latLng.lng();
+
+        if (marker) marker.setMap(null);
+
+        marker = new google.maps.Marker({
+            position: { lat: clickedLat, lng: clickedLng },
+            map: map,
+            title: "Selected Location"
+        });
+
+        document.getElementById("lat").value = clickedLat;
+        document.getElementById("lng").value = clickedLng;
+    });
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCruJewILBtkU38rWd2oU-r7GLKsZiTjkk&callback=initMap" async defer></script>
 {% endblock %}

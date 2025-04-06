@@ -1,9 +1,37 @@
 {% extends "base.html" %}
-
 {% block title %}Contact Us - UrbanNexFut{% endblock %}
-
 {% block content %}
-    <h1 class="text-center">Contact Us</h1>
-    <p class="text-center">Email: UrbanNexFut@example.com</p>
-{% endblock %}
 
+<div class="container-fluid bg-dark text-light py-5 min-vh-100">
+  <div class="container">
+    <h2 class="text-center mb-4">Get in Touch 🌿</h2>
+
+    <form method="POST">
+      <div class="mb-3">
+        <label for="name" class="form-label">Your Name</label>
+        <input type="text" class="form-control bg-secondary text-light" id="name" name="name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Your Email</label>
+        <input type="email" class="form-control bg-secondary text-light" id="email" name="email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="message" class="form-label">Your Message</label>
+        <textarea class="form-control bg-secondary text-light" id="message" name="message" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-success">Send Message</button>
+    </form>
+
+    <!-- Contact Info -->
+    <div class="mt-5">
+      <h4>Contact Details</h4>
+      <p>Email: <a href="mailto:UrbanNexFut@gmail.com" class="text-info">UrbanNexFut@gmail.com</a></p>
+      <p>Mobile: <a href="tel:+919508860453" class="text-info">+91-9508860453</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

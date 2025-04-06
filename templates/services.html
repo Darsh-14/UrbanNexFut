@@ -1,8 +1,61 @@
 {% extends "base.html" %}
-
-{% block title %}Services - UrbanNexFut{% endblock %}
+{% block title %}Our Services - UrbanNexFut{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Our Services</h1>
-    <p class="text-center">We provide AI-driven urban greening solutions.</p>
+<style>
+    body {
+        background-color: #121212;
+    }
+    h2, .card-title {
+        color: #90ee90; /* Light Green */
+    }
+    .card-text {
+        color: #ffffff;
+    }
+    .card-link {
+        text-decoration: none;
+    }
+</style>
+
+<div class="container py-5">
+    <h2 class="text-center mb-5">Our Services 🌿</h2>
+
+    <div class="row g-4">
+        <!-- AQI Monitoring -->
+        <div class="col-md-6">
+            <a href="/services/aqi" class="card-link">
+                <div class="card shadow rounded-4 border-0 h-100 bg-dark text-white">
+                    <div class="card-body">
+                        <h4 class="card-title">Real-Time AQI Monitoring</h4>
+                        <p class="card-text">We use OpenWeatherMap API to provide accurate Air Quality Index readings, helping you stay informed about pollution levels in your area.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- AI Green Zone Prediction -->
+        <div class="col-md-6">
+            <a href="/services/ai-green" class="card-link">
+                <div class="card shadow rounded-4 border-0 h-100 bg-dark text-white">
+                    <div class="card-body">
+                        <h4 class="card-title">AI-based Green Zone Suggestions</h4>
+                        <p class="card-text">Using Gemini AI and pollution data, we suggest optimal locations for planting trees and improving urban greenery.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Manual Add -->
+        <div class="col-md-6">
+            <a href="/services/manual-add" class="card-link">
+                <div class="card shadow rounded-4 border-0 h-100 bg-dark text-white">
+                    <div class="card-body">
+                        <h4 class="card-title">Manual Green Zone Submission</h4>
+                        <p class="card-text">Users can manually mark areas on the map where greenery or environmental action is needed. Every input helps us grow 🌱.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
