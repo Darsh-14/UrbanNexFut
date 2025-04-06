@@ -342,4 +342,6 @@ def internal_error(e):
 # ---------------------- Start Server --------------------------
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    port = int(os.environ.get("PORT", 8080))  # Get the port from env
+    app.run(host="0.0.0.0", port=port)        # Bind to 0.0.0.0 for external access
+
