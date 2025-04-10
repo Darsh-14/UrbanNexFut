@@ -1,158 +1,3 @@
-# from flask import Flask, render_template, request, redirect, url_for, jsonify
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_wtf import FlaskForm
-# from wtforms import StringField, FloatField, SubmitField
-# from wtforms.validators import DataRequired
-# import os
-# import logging
-# import google.generativeai as genai
-# from dotenv import load_dotenv
-# from flask_cors import CORS
-# from flask import Flask, send_from_directory
-# import os
-
-
-
-
-# # Initialize Flask App
-# app = Flask(__name__)
-# CORS(app)  # Enable CORS for all routes
-
-# # Load API Key Securely
-# load_dotenv()
-# API_KEY = os.getenv("GEMINI_API_KEY")
-# if not API_KEY:
-#     raise ValueError("❌ GEMINI_API_KEY is missing. Set it in your .env file!")
-# genai.configure(api_key=API_KEY)
-
-# # Configure Logging
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-# logger = logging.getLogger(__name__)
-
-# # Flask App Configuration
-# app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY", "dev-key-123")
-# BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-# app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'green_zones.db')}"
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# # Database Setup
-# db = SQLAlchemy(app)
-
-# # Database Model
-# class GreenZone(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-#     lat = db.Column(db.Float, nullable=False)
-#     lon = db.Column(db.Float, nullable=False)
-
-#     def to_dict(self):
-#         return {"id": self.id, "name": self.name, "lat": self.lat, "lon": self.lon}
-
-# # Ensure Database is Created
-# def init_db():
-#     with app.app_context():
-#         db.create_all()
-#         logger.info("✅ Database Initialized!")
-# init_db()
-
-# # Form for Adding Green Zones
-# class AddZoneForm(FlaskForm):
-#     name = StringField("Name", validators=[DataRequired()])
-#     lat = FloatField("Latitude", validators=[DataRequired()])
-#     lon = FloatField("Longitude", validators=[DataRequired()])
-#     submit = SubmitField("Add Zone")
-
-# # Routes
-# @app.route("/")
-# def home():
-#     return render_template("home.html")
-
-# @app.route("/about")
-# def about():
-#     return render_template("about.html")
-
-# @app.route("/services")
-# def services():
-#     return render_template("services.html")
-
-# @app.route("/contact")
-# def contact():
-#     return render_template("contact.html")
-
-# @app.route("/map")
-# def map_page():
-#     return render_template("map.html")
-
-# @app.route("/add-zone", methods=["GET", "POST"])
-# def add_zone():
-#     form = AddZoneForm()
-#     if form.validate_on_submit():
-#         try:
-#             new_zone = GreenZone(name=form.name.data, lat=form.lat.data, lon=form.lon.data)
-#             db.session.add(new_zone)
-#             db.session.commit()
-#             logger.info(f"✅ Added Green Zone: {form.name.data}")
-#             return redirect(url_for("map_page"))
-#         except Exception as e:
-#             db.session.rollback()
-#             logger.error(f"❌ Error adding zone: {str(e)}")
-#             return "Error adding zone. Please try again."
-#     return render_template("add_zone.html", form=form)
-
-# @app.route("/api/green-zones", methods=["GET"])
-# def get_green_zones():
-#     try:
-#         zones = GreenZone.query.all()
-#         return jsonify([zone.to_dict() for zone in zones])
-#     except Exception as e:
-#         logger.error(f"❌ Error fetching zones: {str(e)}")
-#         return jsonify({"error": "Unable to fetch zones"}), 500
-
-# # AI Chatbot Endpoint
-# # @app.route("/chat", methods=["POST"])
-# # def chat():
-# #     try:
-# #         data = request.get_json()
-# #         prompt = data.get("prompt", "").strip()
-# #         if not prompt:
-# #             return jsonify({"error": "No prompt provided"}), 400
-        
-# #         logger.info(f"Received prompt: {prompt}")
-# #         model = genai.GenerativeModel("gemini-2.0-flash
-
-
-# ") 
-# #         response = model.generate_content(prompt)
-        
-# #         if not response or not response.text:
-# #             return jsonify({"error": "AI response empty"}), 500
-
-# #         return jsonify({"response": response.text})
-# #     except Exception as e:
-# #         logger.error(f"❌ AI Chatbot Error: {str(e)}")
-# #         return jsonify({"error": f"Server error: {str(e)}"}), 500
-
-# @app.route('/chat')
-# def chat():
-#     return render_template('chat.html')  # Now served from the templates folder
-
-# # Other routes like /map, /add-zone, etc.
-
-# # if __name__ == '__main__':
-# #     app.run(debug=True, port=5000)
-
-# # Custom Error Pages
-# @app.errorhandler(404)
-# def page_not_found(e):
-#     return render_template("404.html"), 404
-
-# @app.errorhandler(500)
-# def internal_server_error(e):
-#     return render_template("500.html"), 500
-
-# # Run Flask Server
-# if __name__ == "__main__":
-#     app.run(debug=True, host="0.0.0.0", port=8080)
 from flask import Flask, request, jsonify, render_template, redirect, flash, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -386,4 +231,158 @@ if _name_ == "_main_":
 #     port = int(os.environ.get("PORT", 8080))
 #     app.run(host='0.0.0.0', port=port)
 
+# from flask import Flask, render_template, request, redirect, url_for, jsonify
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_wtf import FlaskForm
+# from wtforms import StringField, FloatField, SubmitField
+# from wtforms.validators import DataRequired
+# import os
+# import logging
+# import google.generativeai as genai
+# from dotenv import load_dotenv
+# from flask_cors import CORS
+# from flask import Flask, send_from_directory
+# import os
 
+
+
+
+# # Initialize Flask App
+# app = Flask(__name__)
+# CORS(app)  # Enable CORS for all routes
+
+# # Load API Key Securely
+# load_dotenv()
+# API_KEY = os.getenv("GEMINI_API_KEY")
+# if not API_KEY:
+#     raise ValueError("❌ GEMINI_API_KEY is missing. Set it in your .env file!")
+# genai.configure(api_key=API_KEY)
+
+# # Configure Logging
+# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+# logger = logging.getLogger(__name__)
+
+# # Flask App Configuration
+# app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY", "dev-key-123")
+# BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'green_zones.db')}"
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# # Database Setup
+# db = SQLAlchemy(app)
+
+# # Database Model
+# class GreenZone(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100), nullable=False)
+#     lat = db.Column(db.Float, nullable=False)
+#     lon = db.Column(db.Float, nullable=False)
+
+#     def to_dict(self):
+#         return {"id": self.id, "name": self.name, "lat": self.lat, "lon": self.lon}
+
+# # Ensure Database is Created
+# def init_db():
+#     with app.app_context():
+#         db.create_all()
+#         logger.info("✅ Database Initialized!")
+# init_db()
+
+# # Form for Adding Green Zones
+# class AddZoneForm(FlaskForm):
+#     name = StringField("Name", validators=[DataRequired()])
+#     lat = FloatField("Latitude", validators=[DataRequired()])
+#     lon = FloatField("Longitude", validators=[DataRequired()])
+#     submit = SubmitField("Add Zone")
+
+# # Routes
+# @app.route("/")
+# def home():
+#     return render_template("home.html")
+
+# @app.route("/about")
+# def about():
+#     return render_template("about.html")
+
+# @app.route("/services")
+# def services():
+#     return render_template("services.html")
+
+# @app.route("/contact")
+# def contact():
+#     return render_template("contact.html")
+
+# @app.route("/map")
+# def map_page():
+#     return render_template("map.html")
+
+# @app.route("/add-zone", methods=["GET", "POST"])
+# def add_zone():
+#     form = AddZoneForm()
+#     if form.validate_on_submit():
+#         try:
+#             new_zone = GreenZone(name=form.name.data, lat=form.lat.data, lon=form.lon.data)
+#             db.session.add(new_zone)
+#             db.session.commit()
+#             logger.info(f"✅ Added Green Zone: {form.name.data}")
+#             return redirect(url_for("map_page"))
+#         except Exception as e:
+#             db.session.rollback()
+#             logger.error(f"❌ Error adding zone: {str(e)}")
+#             return "Error adding zone. Please try again."
+#     return render_template("add_zone.html", form=form)
+
+# @app.route("/api/green-zones", methods=["GET"])
+# def get_green_zones():
+#     try:
+#         zones = GreenZone.query.all()
+#         return jsonify([zone.to_dict() for zone in zones])
+#     except Exception as e:
+#         logger.error(f"❌ Error fetching zones: {str(e)}")
+#         return jsonify({"error": "Unable to fetch zones"}), 500
+
+# # AI Chatbot Endpoint
+# # @app.route("/chat", methods=["POST"])
+# # def chat():
+# #     try:
+# #         data = request.get_json()
+# #         prompt = data.get("prompt", "").strip()
+# #         if not prompt:
+# #             return jsonify({"error": "No prompt provided"}), 400
+        
+# #         logger.info(f"Received prompt: {prompt}")
+# #         model = genai.GenerativeModel("gemini-2.0-flash
+
+
+# ") 
+# #         response = model.generate_content(prompt)
+        
+# #         if not response or not response.text:
+# #             return jsonify({"error": "AI response empty"}), 500
+
+# #         return jsonify({"response": response.text})
+# #     except Exception as e:
+# #         logger.error(f"❌ AI Chatbot Error: {str(e)}")
+# #         return jsonify({"error": f"Server error: {str(e)}"}), 500
+
+# @app.route('/chat')
+# def chat():
+#     return render_template('chat.html')  # Now served from the templates folder
+
+# # Other routes like /map, /add-zone, etc.
+
+# # if __name__ == '__main__':
+# #     app.run(debug=True, port=5000)
+
+# # Custom Error Pages
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     return render_template("404.html"), 404
+
+# @app.errorhandler(500)
+# def internal_server_error(e):
+#     return render_template("500.html"), 500
+
+# # Run Flask Server
+# if __name__ == "__main__":
+#     app.run(debug=True, host="0.0.0.0", port=8080)
